@@ -25,6 +25,7 @@ const searchBooks = async () => {
           publisher?: string
           publishedDate?: string
           pageCount?: number
+          language?: string
           categories?: string[]
           imageLinks?: {
             thumbnail?: string
@@ -45,6 +46,7 @@ const searchBooks = async () => {
       publisher: item.volumeInfo.publisher,
       publishedDate: item.volumeInfo.publishedDate,
       pageCount: item.volumeInfo.pageCount,
+      language: item.volumeInfo.language,
       categories: item.volumeInfo.categories,
       thumbnail: item.volumeInfo.imageLinks?.thumbnail,
     }))
@@ -105,28 +107,11 @@ const searchBooks = async () => {
         </h2>
 
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <article
-            v-for="book in books"
-            :key="book.id"
-            class="rounded-xl bg-white p-4 shadow-sm"
-          >
-            <img
-              v-if="book.thumbnail"
-              :src="book.thumbnail"
-              :alt="book.title"
-              class="mx-auto h-64 w-full object-contain"
-            />
-
-            <div class="mt-4">
-              <h3 class="font-semibold text-slate-900">
-                {{ book.title }}
-              </h3>
-
-              <p class="mt-1 text-sm text-slate-600">
-                {{ book.authors.join(', ') || 'Unknown author' }}
-              </p>
-            </div>
-          </article>
+        <BookCard
+          v-for="book in books"
+          :key="book.id"
+          :book="book"
+        />
         </div>
       </section>
 
