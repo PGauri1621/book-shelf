@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const { shortlist } = useShortlist()
+//const { shortlist } = useShortlist()
+const {
+  shortlist,
+  removeBook,
+} = useShortlist()
 </script>
 
 <template>
@@ -48,10 +52,13 @@ const { shortlist } = useShortlist()
         v-else
         class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
       >
-        <BookCard
-          v-for="book in shortlist"
-          :key="book.id"
-          :book="book"
+       <BookCard
+            v-for="book in shortlist"
+            :key="book.id"
+            :book="book"
+            :shortlisted="true"
+            @click="navigateTo(`/books/${book.id}`)"
+            @toggle-shortlist="removeBook(book.id)"
         />
       </div>
     </div>

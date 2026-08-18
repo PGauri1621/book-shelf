@@ -21,5 +21,5 @@ export default defineNuxtConfig({
     ],
   },
 
-  modules: ['@nuxtjs/storybook'],
+
 })

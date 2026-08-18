@@ -25,7 +25,7 @@ Build the application for production:
 # npm
 npm run build
 
-Design decisions along the way:
+Design decisions and issues faced along the way:
 
 1. Added additional shape of data for displaying book data (apart from the ones mentioned in requirement spec).
 
@@ -35,5 +35,5 @@ Design decisions along the way:
 
 4. Updated codex suggestion for implementing the storybook with bookcard component and searchbar compo (for this moved the form tag from index.vue to the searchbar compo).
 
-5. 
+5. Got into storybook installation error. Version mismatch, took longer than expected to resolve this issue. 
 

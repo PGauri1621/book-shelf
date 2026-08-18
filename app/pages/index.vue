@@ -6,6 +6,20 @@ const books = ref<Book[]>([])
 const loading = ref(false)
 const error = ref('')
 
+const {
+  addBook,
+  removeBook,
+  isShortlisted,
+} = useShortlist()
+
+const toggleShortlist = (book: Book) => {
+  if (isShortlisted(book.id)) {
+    removeBook(book.id)
+  } else {
+    addBook(book)
+  }
+}
+
 const searchBooks = async () => {
   if (!searchTerm.value.trim()) {
     return
@@ -96,11 +110,14 @@ console.log('Shortlist:', shortlist.value)
         </h2>
 
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <BookCard
-            v-for="book in books"
-            :key="book.id"
-            :book="book"
-          />
+         <BookCard
+          v-for="book in books"
+          :key="book.id"
+          :book="book"
+          :shortlisted="isShortlisted(book.id)"
+          @click="navigateTo(`/books/${book.id}`)"
+          @toggle-shortlist="toggleShortlist(book)"
+        />
         </div>
       </section>
 

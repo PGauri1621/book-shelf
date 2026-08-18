@@ -1,41 +1,33 @@
 <script setup lang="ts">
 import type { Book } from '~/types/book'
 
-const props = defineProps<{
+defineProps<{
   book: Book
+  shortlisted?: boolean
 }>()
 
-const { addBook, removeBook, isShortlisted } = useShortlist()
-
-const openBook = () => {
-  navigateTo(`/books/${props.book.id}`)
-}
-
-const toggleShortlist = () => {
-  if (isShortlisted(props.book.id)) {
-    removeBook(props.book.id)
-  } else {
-    addBook(props.book)
-  }
-}
+const emit = defineEmits<{
+  click: []
+  toggleShortlist: []
+}>()
 </script>
 
 <template>
   <article
     class="relative cursor-pointer rounded-xl bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-    @click="openBook"
+    @click="emit('click')"
   >
     <button
       type="button"
       class="absolute right-5 top-5 z-10 rounded-full bg-white p-2 text-xl shadow-md hover:scale-110"
       :aria-label="
-        isShortlisted(book.id)
+        shortlisted
           ? 'Remove from shortlist'
           : 'Add to shortlist'
       "
-      @click.stop="toggleShortlist"
+      @click.stop="emit('toggleShortlist')"
     >
-      {{ isShortlisted(book.id) ? '♥' : '♡' }}
+      {{ shortlisted ? '♥' : '♡' }}
     </button>
 
     <img
@@ -44,6 +36,13 @@ const toggleShortlist = () => {
       :alt="book.title"
       class="mx-auto h-64 w-full object-contain"
     />
+
+    <div
+      v-else
+      class="flex h-64 items-center justify-center rounded-lg bg-slate-100 text-sm text-slate-500"
+    >
+      No cover available
+    </div>
 
     <div class="mt-4">
       <h3 class="font-semibold text-slate-900">
