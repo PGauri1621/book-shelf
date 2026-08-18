@@ -1,6 +1,3 @@
-# Nuxt Minimal Starter
-
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Setup
 
@@ -10,16 +7,7 @@ Make sure to install dependencies:
 # npm
 npm install
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
-
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
@@ -27,15 +15,6 @@ Start the development server on `http://localhost:3000`:
 ```bash
 # npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
 ## Production
@@ -46,30 +25,15 @@ Build the application for production:
 # npm
 npm run build
 
-# pnpm
-pnpm build
+Design decisions along the way:
 
-# yarn
-yarn build
+1. Added additional shape of data for displaying book data (apart from the ones mentioned in requirement spec).
 
-# bun
-bun run build
-```
+2. Replaced the localstorage suggestion of codex for storing the shortlisted books info and instead used useCookie() to store the shortlisted books list.
 
-Locally preview production build:
+3. For the requirement mentioned in the spec, I felt cookies could be better option which survives the page refresh. Although they have limitation for storing the large dataset, for this small application this will work fine. 
 
-```bash
-# npm
-npm run preview
+4. Updated codex suggestion for implementing the storybook with bookcard component and searchbar compo (for this moved the form tag from index.vue to the searchbar compo).
 
-# pnpm
-pnpm preview
+5. 
 
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
