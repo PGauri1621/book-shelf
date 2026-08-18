@@ -56,6 +56,9 @@ const searchBooks = async () => {
     loading.value = false
   }
 }
+const { shortlist } = useShortlist()
+
+console.log('Shortlist:', shortlist.value)
 </script>
 
 <template>

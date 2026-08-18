@@ -7,6 +7,19 @@ const loading = ref(true)
 const error = ref('')
 const book = ref<Book | null>(null)
 
+const { addBook, removeBook, isShortlisted } = useShortlist()
+
+const toggleShortlist = () => {
+  if (!book.value) {
+    return
+  }
+
+  if (isShortlisted(book.value.id)) {
+    removeBook(book.value.id)
+  } else {
+    addBook(book.value)
+  }
+}
 const fetchBook = async () => {
   loading.value = true
   error.value = ''
@@ -120,6 +133,16 @@ onMounted(fetchBook)
             <p class="mt-3 text-lg text-slate-600">
               {{ book.authors.join(', ') || 'Unknown author' }}
             </p>
+
+            <button
+                type="button"
+                class="mt-6 rounded-lg bg-blue-600 px-5 py-3 font-medium text-white hover:bg-blue-700"
+                @click="toggleShortlist"
+                >
+                {{ isShortlisted(book.id)
+                    ? '♥ Remove from shortlist'
+                    : '♡ Add to shortlist' }}
+            </button>
 
             <div class="mt-6 grid gap-3 text-sm sm:grid-cols-2">
               <div v-if="book.publisher">
