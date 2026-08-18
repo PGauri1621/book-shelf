@@ -15,6 +15,10 @@ Start the development server on `http://localhost:3000`:
 ```bash
 # npm
 npm run dev
+
+#Storybook 
+
+npm run storybook
 ```
 
 ## Production
@@ -24,6 +28,10 @@ Build the application for production:
 ```bash
 # npm
 npm run build
+
+#netlify link
+
+https://graceful-sherbet-0ef119.netlify.app/shortlist
 
 ## Design decisions and issues faced along the way
 
