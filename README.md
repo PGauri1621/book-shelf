@@ -66,3 +66,6 @@ Instead of forcing the dependencies or changing the Nuxt version, I removed the 
 I also had to add `@vitejs/plugin-vue` so that Storybook could process the `.vue` files correctly.  
 After these changes, Storybook was running successfully and both required components could be viewed and tested.
 
+### 6. Time management
+If given more time I would have focused on UI  a bit more.
+
