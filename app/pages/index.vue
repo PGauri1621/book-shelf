@@ -7,6 +7,7 @@ const loading = ref(false)
 const error = ref('')
 
 const {
+  shortlist,
   addBook,
   removeBook,
   isShortlisted,
@@ -70,47 +71,111 @@ const searchBooks = async () => {
     loading.value = false
   }
 }
-const { shortlist } = useShortlist()
-
-console.log('Shortlist:', shortlist.value)
 </script>
-
 <template>
-  <main class="min-h-screen bg-slate-100 px-6 py-12">
-    <div class="mx-auto max-w-6xl">
-      <header class="text-center">
-        <h1 class="text-4xl font-bold text-slate-900">
-          Book Shelf
+  <div>
+    <!-- Hero -->
+    <section class="border-b border-[#E8E2DC] bg-[#FAF7F2]">
+      <div class="mx-auto max-w-4xl px-5 pb-14 pt-16 text-center sm:px-8 sm:pt-20">
+        <span
+          class="inline-flex rounded-full bg-[#FFF0E8] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#C43D00]"
+        >
+          Book discovery
+        </span>
+
+        <h1
+          class="mt-5 text-4xl font-bold tracking-tight text-[#1F1F1F] sm:text-5xl"
+        >
+          Discover your next read
         </h1>
 
-        <p class="mt-3 text-lg text-slate-600">
-          Discover your next book
+        <p class="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#6B625B] sm:text-lg">
+          Search thousands of books by title or author and build your personal
+          reading list.
         </p>
-      </header>
 
-      <SearchBar
-        v-model="searchTerm"
-        :loading="loading"
-        @search="searchBooks"
-      />
+        <div class="mx-auto mt-8 max-w-2xl">
+          <SearchBar
+            v-model="searchTerm"
+            :loading="loading"
+            @search="searchBooks"
+          />
+        </div>
+      </div>
+    </section>
 
-      <p
-        v-if="error"
-        class="mt-6 text-center text-red-600"
-      >
-        {{ error }}
-      </p>
-
-      <section
+    <!-- Results -->
+    <section class="mx-auto max-w-7xl px-5 py-12 sm:px-8">
+      <div
         v-if="books.length"
-        class="mt-10"
+        class="mb-7 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between"
       >
-        <h2 class="mb-6 text-2xl font-semibold text-slate-900">
-          Search Results
+        <div>
+          <p class="text-sm font-medium text-[#FF5000]">
+            Search results
+          </p>
+
+          <h2 class="mt-1 text-2xl font-bold text-[#1F1F1F]">
+            Books you might enjoy
+          </h2>
+        </div>
+
+        <p class="text-sm text-[#6B625B]">
+          {{ books.length }} {{ books.length === 1 ? 'book' : 'books' }} found
+        </p>
+      </div>
+
+      <!-- Loading -->
+      <div
+        v-if="loading"
+        class="flex min-h-[240px] items-center justify-center"
+      >
+        <div class="text-center">
+          <div
+            class="mx-auto h-9 w-9 animate-spin rounded-full border-4 border-[#FFE0D2] border-t-[#FF5000]"
+          />
+          <p class="mt-4 text-sm text-[#6B625B]">
+            Finding books...
+          </p>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div
+        v-else-if="error"
+        class="rounded-2xl border border-red-200 bg-red-50 p-6 text-center"
+      >
+        <p class="font-semibold text-red-800">
+          We couldn't complete the search.
+        </p>
+
+        <p class="mt-1 text-sm text-red-700">
+          {{ error }}
+        </p>
+      </div>
+
+      <!-- Empty state -->
+      <div
+        v-else-if="!books.length"
+        class="rounded-2xl border border-dashed border-[#D9CFC7] bg-white px-6 py-16 text-center"
+      >
+        <div class="text-5xl">📚</div>
+
+        <h2 class="mt-5 text-xl font-semibold text-[#1F1F1F]">
+          Start exploring
         </h2>
 
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-         <BookCard
+        <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-[#6B625B]">
+          Search for a book title or author above to discover your next read.
+        </p>
+      </div>
+
+      <!-- Books -->
+      <div
+        v-else
+        class="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4"
+      >
+        <BookCard
           v-for="book in books"
           :key="book.id"
           :book="book"
@@ -118,15 +183,7 @@ console.log('Shortlist:', shortlist.value)
           @click="navigateTo(`/books/${book.id}`)"
           @toggle-shortlist="toggleShortlist(book)"
         />
-        </div>
-      </section>
-
-      <p
-        v-else-if="!loading && searchTerm"
-        class="mt-10 text-center text-slate-600"
-      >
-        No books found.
-      </p>
-    </div>
-  </main>
+      </div>
+    </section>
+  </div>
 </template>

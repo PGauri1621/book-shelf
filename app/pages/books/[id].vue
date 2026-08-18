@@ -70,145 +70,169 @@ onMounted(fetchBook)
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-100 px-6 py-10">
-    <div class="mx-auto max-w-5xl">
-      <button
-        class="mb-8 text-sm font-medium text-blue-600 hover:text-blue-800"
-        @click="navigateTo('/')"
-      >
-        ← Back to Discover
-      </button>
+  <div class="mx-auto max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
+    <NuxtLink
+      to="/"
+      class="inline-flex items-center gap-2 text-sm font-medium text-[#6B625B] transition hover:text-[#FF5000]"
+    >
+      ← Back to Discover
+    </NuxtLink>
 
-      <div
-        v-if="loading"
-        class="rounded-xl bg-white p-10 text-center shadow-sm"
-      >
-        <p class="text-slate-600">
-          Loading book details...
-        </p>
-      </div>
+    <div
+      v-if="book"
+      class="mt-8 grid gap-10 lg:grid-cols-[320px_1fr] lg:gap-14"
+    >
+      <!-- Cover -->
+      <div>
+        <div class="overflow-hidden rounded-2xl bg-[#F1ECE7] shadow-sm">
+          <img
+            v-if="book.thumbnail"
+            :src="book.thumbnail"
+            :alt="book.title"
+            class="aspect-[2/3] w-full object-cover"
+          />
 
-      <div
-        v-else-if="error"
-        class="rounded-xl bg-white p-10 text-center shadow-sm"
-      >
-        <p class="text-red-600">
-          {{ error }}
-        </p>
-
-        <button
-          class="mt-4 rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700"
-          @click="fetchBook"
-        >
-          Try Again
-        </button>
-      </div>
-
-      <article
-        v-else-if="book"
-        class="rounded-2xl bg-white p-6 shadow-sm md:p-10"
-      >
-        <div class="grid gap-10 md:grid-cols-[280px_1fr]">
-          <div>
-            <img
-              v-if="book.thumbnail"
-              :src="book.thumbnail"
-              :alt="book.title"
-              class="mx-auto max-h-[420px] w-full object-contain"
-            />
-
-            <div
-              v-else
-              class="flex h-[400px] items-center justify-center rounded-lg bg-slate-200 text-slate-500"
-            >
-              No cover available
-            </div>
-          </div>
-
-          <div>
-            <h1 class="text-3xl font-bold text-slate-900">
-              {{ book.title }}
-            </h1>
-
-            <p class="mt-3 text-lg text-slate-600">
-              {{ book.authors.join(', ') || 'Unknown author' }}
-            </p>
-
-            <button
-                type="button"
-                class="mt-6 rounded-lg bg-blue-600 px-5 py-3 font-medium text-white hover:bg-blue-700"
-                @click="toggleShortlist"
-                >
-                {{ isShortlisted(book.id)
-                    ? '♥ Remove from shortlist'
-                    : '♡ Add to shortlist' }}
-            </button>
-
-            <div class="mt-6 grid gap-3 text-sm sm:grid-cols-2">
-              <div v-if="book.publisher">
-                <span class="font-semibold text-slate-900">
-                  Publisher:
-                </span>
-                {{ book.publisher }}
-              </div>
-
-              <div v-if="book.publishedDate">
-                <span class="font-semibold text-slate-900">
-                  Published:
-                </span>
-                {{ book.publishedDate }}
-              </div>
-
-              <div v-if="book.pageCount">
-                <span class="font-semibold text-slate-900">
-                  Pages:
-                </span>
-                {{ book.pageCount }}
-              </div>
-
-              <div v-if="book.language">
-                <span class="font-semibold text-slate-900">
-                  Language:
-                </span>
-                {{ book.language.toUpperCase() }}
-              </div>
-            </div>
-
-            <div
-              v-if="book.categories?.length"
-              class="mt-6"
-            >
-              <h2 class="font-semibold text-slate-900">
-                Categories
-              </h2>
-
-              <div class="mt-2 flex flex-wrap gap-2">
-                <span
-                  v-for="category in book.categories"
-                  :key="category"
-                  class="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600"
-                >
-                  {{ category }}
-                </span>
-              </div>
-            </div>
-
-            <div
-              v-if="book.description"
-              class="mt-8"
-            >
-              <h2 class="text-xl font-semibold text-slate-900">
-                Description
-              </h2>
-
-              <div
-                class="prose prose-slate mt-3 max-w-none text-slate-600"
-                v-html="book.description"
-              />
-            </div>
+          <div
+            v-else
+            class="flex aspect-[2/3] flex-col items-center justify-center gap-2 text-[#8A817A]"
+          >
+            <span class="text-5xl">📖</span>
+            <span class="text-sm">Cover unavailable</span>
           </div>
         </div>
-      </article>
+      </div>
+
+      <!-- Information -->
+      <div>
+        <div class="flex flex-wrap gap-2">
+          <span
+            v-if="book.language"
+            class="rounded-full bg-[#FFF0E8] px-3 py-1 text-xs font-semibold uppercase text-[#C43D00]"
+          >
+            {{ book.language }}
+          </span>
+
+          <span
+            v-if="book.publishedDate"
+            class="rounded-full bg-[#F3F0ED] px-3 py-1 text-xs font-medium text-[#6B625B]"
+          >
+            {{ book.publishedDate.substring(0, 4) }}
+          </span>
+        </div>
+
+        <h1
+          class="mt-4 text-3xl font-bold tracking-tight text-[#1F1F1F] sm:text-4xl"
+        >
+          {{ book.title }}
+        </h1>
+
+        <p class="mt-2 text-lg text-[#6B625B]">
+          {{ book.authors?.join(', ') || 'Unknown author' }}
+        </p>
+
+        <!-- Shortlist -->
+        <button
+          type="button"
+          class="mt-7 inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition"
+          :class="
+            isShortlisted(book.id)
+              ? 'bg-[#FFF0E8] text-[#C43D00] hover:bg-[#FFE5D8]'
+              : 'bg-[#FF5000] text-white hover:bg-[#E64600]'
+          "
+          @click="toggleShortlist(book)"
+        >
+          <span class="text-lg">
+            {{ isShortlisted(book.id) ? '♥' : '♡' }}
+          </span>
+
+          {{
+            isShortlisted(book.id)
+              ? 'Remove from shortlist'
+              : 'Add to shortlist'
+          }}
+        </button>
+
+        <!-- Metadata -->
+        <div
+          class="mt-10 grid grid-cols-2 gap-x-6 gap-y-6 border-y border-[#E8E2DC] py-7 sm:grid-cols-3"
+        >
+          <div>
+            <p class="text-xs font-medium uppercase tracking-wide text-[#8A817A]">
+              Publisher
+            </p>
+            <p class="mt-1 text-sm font-medium text-[#1F1F1F]">
+              {{ book.publisher || 'Unknown' }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-xs font-medium uppercase tracking-wide text-[#8A817A]">
+              Pages
+            </p>
+            <p class="mt-1 text-sm font-medium text-[#1F1F1F]">
+              {{ book.pageCount || 'Unknown' }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-xs font-medium uppercase tracking-wide text-[#8A817A]">
+              Published
+            </p>
+            <p class="mt-1 text-sm font-medium text-[#1F1F1F]">
+              {{ book.publishedDate || 'Unknown' }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <section class="mt-9">
+          <h2 class="text-xl font-bold text-[#1F1F1F]">
+            About this book
+          </h2>
+
+          <div
+            v-if="book.description"
+            class="prose prose-sm mt-4 max-w-none leading-7 text-[#5F5751]"
+            v-html="book.description"
+          />
+
+          <p
+            v-else
+            class="mt-4 text-sm text-[#8A817A]"
+          >
+            No description is available for this book.
+          </p>
+        </section>
+
+        <!-- Categories -->
+        <section
+          v-if="book.categories?.length"
+          class="mt-8"
+        >
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-[#8A817A]">
+            Categories
+          </h2>
+
+          <div class="mt-3 flex flex-wrap gap-2">
+            <span
+              v-for="category in book.categories"
+              :key="category"
+              class="rounded-full border border-[#E8E2DC] bg-white px-3 py-1.5 text-sm text-[#6B625B]"
+            >
+              {{ category }}
+            </span>
+          </div>
+        </section>
+      </div>
     </div>
-  </main>
+
+    <div
+      v-else
+      class="py-20 text-center"
+    >
+      <p class="text-[#6B625B]">
+        Book not found.
+      </p>
+    </div>
+  </div>
 </template>
