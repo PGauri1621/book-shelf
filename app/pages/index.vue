@@ -74,25 +74,11 @@ console.log('Shortlist:', shortlist.value)
         </p>
       </header>
 
-      <form
-        class="mx-auto mt-8 flex max-w-2xl gap-3"
-        @submit.prevent="searchBooks"
-      >
-        <input
-          v-model="searchTerm"
-          type="search"
-          placeholder="Search by title or author..."
-          class="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-        />
-
-        <button
-          type="submit"
-          :disabled="loading"
-          class="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {{ loading ? 'Searching...' : 'Search' }}
-        </button>
-      </form>
+      <SearchBar
+        v-model="searchTerm"
+        :loading="loading"
+        @search="searchBooks"
+      />
 
       <p
         v-if="error"

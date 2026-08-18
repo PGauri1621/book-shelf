@@ -8,15 +8,17 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-
   css: ['~/assets/css/main.css'],
 
-   runtimeConfig: {
-    googleBooksApiKey: process.env.GOOGLE_BOOKS_API_KEY,
-  },
+  runtimeConfig: {
+   googleBooksApiKey: process.env.GOOGLE_BOOKS_API_KEY,
+ },
+
   vite: {
     plugins: [
       tailwindcss(),
     ],
   },
+
+  modules: ['@nuxtjs/storybook'],
 })
