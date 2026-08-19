@@ -5,6 +5,7 @@ const searchTerm = ref('')
 const books = ref<Book[]>([])
 const loading = ref(false)
 const error = ref('')
+const route = useRoute()
 
 const {
   shortlist,
@@ -20,6 +21,10 @@ const toggleShortlist = (book: Book) => {
     addBook(book)
   }
 }
+
+const searchTerm = ref(
+  typeof route.query.q === 'string' ? route.query.q : '',
+)
 
 const searchBooks = async () => {
   if (!searchTerm.value.trim()) {
