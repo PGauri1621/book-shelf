@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Book } from '~/types/book'
 
-const searchTerm = ref('')
+const searchTerm = ref(typeof route.query.q === 'string' ? route.query.q : '',)
 const books = ref<Book[]>([])
 const loading = ref(false)
 const error = ref('')
@@ -31,9 +31,7 @@ const searchBooks = async () => {
 
   loading.value = true
   error.value = ''
-  const searchTerm = ref(
-  typeof route.query.q === 'string' ? route.query.q : '',
-)
+ 
 
   try {
     const response = await $fetch<{
