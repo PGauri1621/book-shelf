@@ -22,9 +22,7 @@ const toggleShortlist = (book: Book) => {
   }
 }
 
-const searchTerm = ref(
-  typeof route.query.q === 'string' ? route.query.q : '',
-)
+
 
 const searchBooks = async () => {
   if (!searchTerm.value.trim()) {
@@ -33,6 +31,9 @@ const searchBooks = async () => {
 
   loading.value = true
   error.value = ''
+  const searchTerm = ref(
+  typeof route.query.q === 'string' ? route.query.q : '',
+)
 
   try {
     const response = await $fetch<{
